@@ -1,18 +1,22 @@
 <template>
-  <div>
-    <h4>{{ share.word }}</h4>
-
-    Phonetics:
-    <Phonetic
-      v-for="(phonetic, index) in share.phonetics"
-      :key="index"
-      v-bind="phonetic"
-    />
-
-    Meanings:
-    <Mean v-for="(mean, index) in share.meanings" :key="index" v-bind="mean" />
-
-    <hr />
+  <div class="share">
+    <h4 class="text-center">{{ share.word }}</h4>
+    <div>
+      Phonetics:
+      <Phonetic
+        v-for="(phonetic, index) in share.phonetics"
+        :key="index"
+        v-bind="phonetic"
+      />
+    </div>
+    <div>
+      Meanings:
+      <Mean
+        v-for="(mean, index) in share.meanings"
+        :key="index"
+        v-bind="mean"
+      />
+    </div>
   </div>
 </template>
 
@@ -23,7 +27,10 @@ export default {
 </script>
 
 <style>
-hr {
-  margin: 3rem;
+.share {
+  border: 1px solid grey;
+  border-radius: 0.5rem;
+  background-color: #fbf7ed;
+  margin: 1rem 0rem;
 }
 </style>

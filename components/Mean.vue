@@ -17,7 +17,6 @@ export default {
 .meaning {
   border: 1px solid rgb(208, 208, 208);
   border-radius: 5px;
-  margin: 1rem 0rem;
   padding: 1rem;
 }
 </style>
