@@ -9,12 +9,16 @@
   </span>
 </template>
 
-<script setup>
-const props = defineProps({
-  text: String,
-  audio: String,
-});
-const playAudio = (url) => new Audio(url).play();
+<script>
+export default {
+  props: {
+    text: String,
+    audio: String,
+  },
+  methods: {
+    playAudio: (url) => new Audio(url).play(),
+  },
+};
 </script>
 
 <style>

@@ -1,17 +1,38 @@
 <template>
   <div>
-    <Sharing v-for="(share, index) in data" :key="index" :share="share" />
+    <Sharing v-for="(share, index) in shares" :key="index" :share="share" :id="share.word" />
     <div id="new-word">
-      <NewWord/>
+      <NewWord />
     </div>
+    <Toast position="bottom-right"/>
   </div>
 </template>
 
-<script setup>
-const { data } = await useFetch("http://localhost:8080/words");
+<script>
+export default {
+  auth: false,
+  mounted() {
+    this.$bus.on('word-shared', this.onNewWord)
+  },
+  async asyncData({ $axios }) {
+    const shares = await $axios.$get("/api/words");
+    return { shares };
+  },
+  methods: {
+    async onNewWord({word}) {
+      console.log('New word event')
+      if (!this.shares.some(share => share.word == word)) {
+        console.log('Fetching new word data...')
+        const data = await this.$axios.$get('/api/words/' + word)
+        this.shares.push(data)
+      }
+      window.location.href = '#' + word
+    }
+  }
+};
 </script>
 
-<style> 
+<style>
 #new-word {
   background-color: lightskyblue;
   position: fixed;

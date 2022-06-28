@@ -1,6 +1,6 @@
 <template>
   <div class="meaning">
-    {{ partOfSpeech }}
+    <b>{{ partOfSpeech }}</b>
     <p v-for="(def, index) in definitions" :key="index">{{ def.definition }}</p>
     {{ synonyms }}
     {{ antonyms }}

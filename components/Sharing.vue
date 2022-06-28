@@ -1,6 +1,6 @@
 <template>
   <div class="share">
-    <h4 class="text-center">{{ share.word }}</h4>
+    <h3 class="text-center">{{ share.word }}</h3>
     <div>
       Phonetics:
       <Phonetic
