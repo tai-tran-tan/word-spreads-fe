@@ -67,6 +67,7 @@ export default {
   auth: {
     strategies: {
       local: {
+        scheme: 'refresh',
         token: {
           property: 'access_token',
           global: true,
@@ -75,21 +76,22 @@ export default {
         },
         refreshToken: {
           property: 'refresh_token',
-          // data: 'refresh_token',
+          type: 'Bearer',
+          data: 'refreshToken',
+          tokenRequired: true
           // maxAge: 60 * 60 * 24 * 30
         },
         user: {
-          property: '',
-          // autoFetch: true
+          property: false,
+          autoFetch: true
         },
         endpoints: {
           login: { 
             url: 'http://localhost:8080/api/login', 
             method: 'post', 
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, 
-            propertyName: 'access_token'
           },
-          refresh: { url: '/api/refresh', method: 'post' },
+          refresh: { url: 'http://localhost:8080/api/auth/refresh', method: 'post' },
           logout: { url: 'http://localhost:8080/api/logout', method: 'post' },
           user: { 
             url: 'http://localhost:8080/api/users', 

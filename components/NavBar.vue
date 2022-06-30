@@ -14,7 +14,7 @@
 <script>
 export default {
   computed: {
-    loggedIn() {
+    loggedIn: function() {
       return this.$auth.loggedIn;
     },
   },
