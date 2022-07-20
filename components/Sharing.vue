@@ -1,5 +1,6 @@
 <template>
   <div class="share">
+    <span>{{userList(share.sharedUser)}} has shared a word</span>
     <h3 class="text-center">{{ share.word }}</h3>
     <div>
       Phonetics:
@@ -23,6 +24,14 @@
 <script>
 export default {
   props: ["share"],
+  methods: {
+    userList(users) {
+      if (users && users.length) {
+        return users.map(u => u.username).join(', ')
+      }
+      return 'Someone'
+    }
+  }
 };
 </script>
 

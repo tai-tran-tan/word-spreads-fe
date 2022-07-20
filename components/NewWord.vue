@@ -22,8 +22,8 @@ export default {
             this.$bus.emit('word-shared', {word})
           })
           .catch((err) => {
-            console.log(JSON.stringify(err));
-            this.$showToast("Word not found in dictionary, please check spelling/typo then try again!", "warn")
+            console.error(err.message);
+            this.$showToast("Something went wrong, can not share word!", "ERROR")
           });
       } else {
         this.$showToast('Please login to continue')

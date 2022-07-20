@@ -72,14 +72,14 @@ export default {
           property: 'access_token',
           global: true,
           required: true,
-          type: 'Bearer'
+          type: 'Bearer',
+          maxAge: 5 * 60 // seconds
         },
         refreshToken: {
           property: 'refresh_token',
           type: 'Bearer',
-          data: 'refreshToken',
-          tokenRequired: true
-          // maxAge: 60 * 60 * 24 * 30
+          tokenRequired: true,
+          maxAge: 60 * 60 // seconds
         },
         user: {
           property: false,

@@ -47,7 +47,6 @@ export default {
         .loginWith("local", { data: new URLSearchParams(account) })
         .then(() => {
           console.log("Logged in!");
-          this.$auth.refreshTokens()
           this.$showToast("Logged in.");
         })
         .catch((err) => {
