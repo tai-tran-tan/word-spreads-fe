@@ -18,6 +18,7 @@
         v-bind="mean"
       />
     </div>
+    <Actions v-bind="share"/>
   </div>
 </template>
 
@@ -29,7 +30,7 @@ export default {
       if (users && users.length) {
         return users.map(u => u.username).join(', ')
       }
-      return 'Someone'
+      return 'Anonymous user'
     }
   }
 };

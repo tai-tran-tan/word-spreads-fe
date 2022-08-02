@@ -30,6 +30,8 @@ export default {
     { src: '~/plugins/primevue.client.js', mode: 'client' },
     { src: '~/plugins/toast.client.js', mode: 'client' },
     { src: '~/plugins/bus.client.js', mode: 'client' },
+    { src: '~/plugins/refresh-token.client.js', mode: 'client' },
+    { src: '~/plugins/backend.client.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -73,13 +75,14 @@ export default {
           global: true,
           required: true,
           type: 'Bearer',
-          maxAge: 5 * 60 // seconds
+          maxAge: 3 * 60 * 60 // seconds
         },
         refreshToken: {
           property: 'refresh_token',
           type: 'Bearer',
+          data: 'refreshToken',
           tokenRequired: true,
-          maxAge: 60 * 60 // seconds
+          maxAge: 3 * 60 * 60 // seconds
         },
         user: {
           property: false,
@@ -97,7 +100,8 @@ export default {
             url: 'http://localhost:8080/api/users', 
             method: 'get'
           }
-        }
+        },
+        autoLogout: false
       }
     }
   },

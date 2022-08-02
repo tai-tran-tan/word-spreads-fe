@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import _ from "lodash";
 export default {
   auth: false,
   mounted() {
@@ -34,9 +35,12 @@ export default {
   methods: {
     async onNewWord({ word }) {
       console.log("New word event");
-      if (!this.shares.some((share) => share.word == word)) {
-        console.log("Fetching new word data...");
-        const data = await this.$axios.$get("/api/words/" + word);
+      console.log("Fetching new word data...");
+      const data = await this.$axios.$get("/api/words/" + word);
+      const index = _.findIndex(this.shares, { word });
+      if (index > -1) {
+        this.shares.splice(index, 1, data);
+      } else {
         this.shares.push(data);
       }
       window.location.href = "#" + word;
