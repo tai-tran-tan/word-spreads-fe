@@ -8,7 +8,7 @@ metadata:
     app: word-spreads-frontend
   name: word-spreads-frontend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       k8s-app: word-spreads-frontend
@@ -27,7 +27,7 @@ spec:
       name: word-spreads-frontend
     spec:
       containers:
-        - image: word-spreads-fe:latest
+        - image: taitranthedev/word-spreads-fe:latest
           imagePullPolicy: IfNotPresent
           name: word-spreads-frontend
           ports:

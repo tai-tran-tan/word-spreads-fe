@@ -2,7 +2,7 @@
   <div>
     <NuxtLink to="/">Home</NuxtLink>
     <div v-if="loggedIn">
-      <label>Welcome {{ $auth.user.username }}</label>
+      <label>Welcome {{ $auth.user.name }}</label>
       <Button class="p-button-link" @click="$auth.logout()" label="Logout" />
     </div>
     <div v-else>

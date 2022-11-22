@@ -1,3 +1,20 @@
+require('dotenv').config()
+const CONFIG = {
+  public: {
+    baseURL: process.env.BASE_URL || 'http://localhost:8080',
+    baseAuthURL: process.env.BASE_AUTH_URL || 'http://keycloak.local.webapp',
+    //local development, watch out for credentials 
+    keycloak: {
+      grant_type: process.env.KEYCLOAK_GRANT_TYPE || 'password',  
+      client_id: process.env.KEYCLOAK_CLIENT_ID || 'word-spreads-web',  
+      scope: process.env.KEYCLOAK_SCOPE || 'openid', 
+      client_secret: process.env.KEYCLOAK_CLIENT_SECRET || '4MaTdYjhCK89J4ZWoV1ePs4a3UkJo9yp'
+    }
+  },
+  private: {
+  },
+}
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -39,6 +56,7 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    // '@nuxtjs/dotenv',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -53,10 +71,10 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
-    headers : {
+    baseURL: CONFIG.public.baseURL,
+    headers: {
       common: {
-        'Accept' : 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
     }
@@ -70,41 +88,55 @@ export default {
     strategies: {
       local: {
         scheme: 'refresh',
+        // grantType: CONFIG.private.keycloak.KEYCLOAK_GRANT_TYPE, //check this, currently set in code
+        // clientId: CONFIG.private.keycloak.KEYCLOAK_CLIENT_ID,
         token: {
           property: 'access_token',
           global: true,
           required: true,
           type: 'Bearer',
-          maxAge: 3 * 60 * 60 // seconds
         },
         refreshToken: {
           property: 'refresh_token',
           type: 'Bearer',
-          data: 'refreshToken',
           tokenRequired: true,
-          maxAge: 3 * 60 * 60 // seconds
         },
         user: {
           property: false,
           autoFetch: true
         },
         endpoints: {
-          login: { 
-            url: '/api/login', 
-            method: 'post', 
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, 
+          login: {
+            url: `${CONFIG.public.baseAuthURL}/realms/WordSpreads/protocol/openid-connect/token`,
+            method: 'post',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            // transformRequest: [(data, headers) => new URLSearchParams(data)]
           },
-          refresh: { url: '/api/auth/refresh', method: 'post' },
-          logout: { url: '/api/logout', method: 'post' },
-          user: { 
-            url: '/api/users', 
-            method: 'get'
+          refresh: {
+            url: `${CONFIG.public.baseAuthURL}/realms/WordSpreads/protocol/openid-connect/token`,
+            method: 'post',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          },
+          logout: { url: `${CONFIG.public.baseAuthURL}/realms/WordSpreads/protocol/openid-connect/logout`, method: 'get' },
+          user: {
+            url: `${CONFIG.public.baseAuthURL}/realms/WordSpreads/protocol/openid-connect/userinfo`, method: 'get',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           }
         },
         autoLogout: false
+      },
+      openIDConnect: {
+        scheme: 'openIDConnect',
+        // clientId: CONFIG.private.keycloak.KEYCLOAK_CLIENT_ID,
+        endpoints: {
+          configuration: 'http://keycloak.local.webapp/realms/WordSpreads/.well-known/openid-configuration',
+        },
       }
     }
   },
+
+  publicRuntimeConfig: CONFIG.public,
+  privateRuntimeConfig: CONFIG.private,
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

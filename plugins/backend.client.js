@@ -9,6 +9,6 @@ class Backend {
 
     coShare(word) {
         console.log('co-sharing a word', word)
-        this._axios.$put('/api/words/'+ word)
+        this._axios.$post('/api/words/'+ word)
     }
 }

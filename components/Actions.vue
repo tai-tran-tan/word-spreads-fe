@@ -1,6 +1,8 @@
 <template>
   <div id="action-buttons">
-    <Button class="p-button-link" label="Share this word" @click="coShare(word)" :disabled="sharedUser.some(u => u.username === $auth.user.username)"/>
+    <Button class="p-button-link" label="Share this word" @click="coShare(word)" 
+     :disabled="hasShared"
+    />
     <Button class="p-button-link" label="Comment" @click="toggleComment"/>
   </div>
 </template>
@@ -10,6 +12,11 @@ export default {
     props: {
         word: String,
         sharedUser: Array
+    },
+    computed: {
+        hasShared() {
+            this.sharedUser.some(u => u?.username == this.$auth?.user?.username)
+        }
     },
     methods: {
         coShare(word) {

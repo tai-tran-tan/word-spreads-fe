@@ -1,14 +1,14 @@
 <template>
-  <div class="flex justify-content-center">
+  <div class="flex justify-content-center p-col-1">
     <h5 class="text-center">Login</h5>
     <form @submit.prevent="handleSubmit({ username, password })">
       <div>
-        <InputText id="name" v-model="username" />
+        <InputText id="name" v-model="username" required />
         <label for="name">Name*</label>
       </div>
       <!-- <small v-if="(v$.name.$invalid && submitted) || v$.name.$pending.$response" class="p-error">{{v$.name.required.$message.replace('Value', 'Name')}}</small> -->
       <div>
-        <Password id="password" v-model="password" toggleMask>
+        <Password id="password" v-model="password" toggleMask required>
           <template #header>
             <h6>Password strength</h6>
           </template>
@@ -29,6 +29,13 @@
       </div>
       <Button type="submit" label="Submit" class="mt-2" />
     </form>
+    <div>
+      <Button
+        class="p-button-link"
+        @click="$auth.loginWith('openIDConnect')"
+        label="Login OIDC"
+      />
+    </div>
     <Toast position="bottom-right" />
   </div>
 </template>
@@ -43,8 +50,9 @@ export default {
   },
   methods: {
     handleSubmit(account) {
+      const data = new URLSearchParams({...account, ...this.$config.keycloak})
       this.$auth
-        .loginWith("local", { data: new URLSearchParams(account) })
+        .loginWith("local", { data })
         .then(() => {
           console.log("Logged in!");
           this.$showToast("Logged in.");
