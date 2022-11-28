@@ -15,7 +15,7 @@ export default {
     },
     computed: {
         hasShared() {
-            this.sharedUser.some(u => u?.username == this.$auth?.user?.username)
+            return this.sharedUser.some(u => u?.username == this.$auth?.user?.user_name)
         }
     },
     methods: {
